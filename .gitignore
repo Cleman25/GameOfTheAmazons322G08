@@ -1,7 +1,10 @@
+<<<<<<< HEAD
 # Created by https://www.toptal.com/developers/gitignore/api/java
 # Edit at https://www.toptal.com/developers/gitignore?templates=java
 
 ### Java ###
+=======
+>>>>>>> 4a8e033ffed4947cfd15179c271ec852c220794a
 # Compiled class file
 *.class
 
