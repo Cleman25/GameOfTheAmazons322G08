@@ -50,6 +50,16 @@ public class BoardAction {
         this.canShootArrow = true;
     }
 
+    public BoardAction(int[] currPos, int[] newPos, int player) {
+        this.currPos = currPos;
+        this.newPos = newPos;
+        this.player = player;
+        this.queenCurrent.add(currPos[0]);
+        this.queenCurrent.add(currPos[1]);
+        this.queenNew.add(newPos[0]);
+        this.queenNew.add(newPos[1]);
+    }
+
     public int[] getMove() {
         return move;
     }

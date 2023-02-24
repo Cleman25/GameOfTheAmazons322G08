@@ -97,4 +97,27 @@ public class BoardState {
     public ArrayList<BoardAction> possibleActions() {
         return new ActionFactory().generateActions(this);
     }
+
+    public ArrayList<int[]> getEmptyAdjacentPositions(int row, int col) {
+        ArrayList<int[]> positions = new ArrayList<int[]>();
+    
+        // Check all adjacent positions
+        for (int i = row - 1; i <= row + 1; i++) {
+            for (int j = col - 1; j <= col + 1; j++) {
+                // Skip current position
+                if (i == row && j == col) {
+                    continue;
+                }
+                // Check if position is on board
+                if (i >= 0 && i < 10 && j >= 0 && j < 10) {
+                    // Check if position is empty
+                    if (board[i][j] == EMPTY) {
+                        positions.add(new int[] {i, j});
+                    }
+                }
+            }
+        }
+    
+        return positions;
+    }
 }

@@ -47,4 +47,33 @@ public class ActionFactory {
         }
         return actions;
     }
+
+    public ArrayList<BoardAction> generateActionsV2(BoardState state) {
+        ArrayList<BoardAction> actions = new ArrayList<BoardAction>();
+        int player = state.turn == 1 ? state.WHITE : state.BLACK;
+        ArrayList<Queen> queens = player == state.WHITE ? state.WHITEQUEENS : state.BLACKQUEENS;
+    
+        for (Queen queen : queens) {
+            int[] queenPos = queen.getPos();
+    
+            // generate moves for the queen
+            ArrayList<int[]> moves = state.getEmptyAdjacentPositions(queenPos[0], queenPos[1]);
+            for (int[] move : moves) {
+                // check if the move is valid
+                if (queen.canMove(move[0], move[1])) {
+                    // generate shots for the queen
+                    ArrayList<int[]> shots = state.getEmptyAdjacentPositions(move[0], move[1]);
+                    for (int[] shot : shots) {
+                        int distance = queen.distanceTo(shot[0], shot[1]);
+                        if (queen.canShootArrow(shot[0], shot[1], distance, state.getBoard())) {
+                            actions.add(new BoardAction(queenPos, move, shot, state.turn));
+                        }
+                    }
+                    actions.add(new BoardAction(queenPos, move, state.turn));
+                }
+            }
+        }
+    
+        return actions;
+    }
 }
