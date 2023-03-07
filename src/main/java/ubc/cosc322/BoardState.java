@@ -1,10 +1,11 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BoardState {
     private int[][] board = new int[10][10];
-    private BoardAction move = new BoardAction();
+    private BoardAction bestMove = new BoardAction();
     private int playedBy;
     public int ME = -1;
     public static int WHITE = 1;
@@ -18,10 +19,10 @@ public class BoardState {
     public BoardState() {
     }
 
-    public BoardState(int[][] board, BoardAction move, int playedBy) {
-        this.board = board;
-        this.move = move;
+    public BoardState(int[][] board, int playedBy) {
+        this.setBoard(board);
         this.playedBy = playedBy;
+        findQueens();
     }
 
     public int[][] getBoard() {
@@ -30,14 +31,15 @@ public class BoardState {
 
     public void setBoard(int[][] board) {
         this.board = board;
+        findQueens();
     }
 
-    public BoardAction getMove() {
-        return move;
+    public BoardAction getBestMove() {
+        return bestMove;
     }
 
-    public void setMove(BoardAction move) {
-        this.move = move;
+    public void setBestMove(BoardAction move) {
+        this.bestMove = move;
     }
 
     public int getPlayedBy() {
@@ -50,30 +52,16 @@ public class BoardState {
 
     public BoardState copy() {
         int[][] newBoard = new int[10][10];
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                newBoard[i][j] = board[i][j];
-            }
+        for (int i = 1; i < GameOfAmazon.BOARD_SIZE; i++) {
+            System.arraycopy(board[i], 1, newBoard[i], 1, GameOfAmazon.BOARD_SIZE - 1);
         }
-        BoardAction newMove = new BoardAction(move.getMove(), playedBy);
-        return new BoardState(newBoard, newMove, playedBy);
-    }
-
-    public int[] getQueenPosition() {
-        int[] queenPosition = new int[2];
-        if (playedBy == WHITE) {
-            queenPosition[0] = move.getMove()[0];
-            queenPosition[1] = move.getMove()[1];
-        } else {
-            queenPosition[0] = move.getMove()[2];
-            queenPosition[1] = move.getMove()[3];
-        }
-        return queenPosition;
+        BoardState newBoardState = new BoardState(newBoard, playedBy);
+        return newBoardState;
     }
 
     public void findQueens() {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 1; i < GameOfAmazon.BOARD_SIZE; i++) {
+            for (int j = 1; j < GameOfAmazon.BOARD_SIZE; j++) {
                 if (board[i][j] == WHITE) {
                     Queen queen = new Queen(i, j, WHITE);
                     WHITEQUEENS.add(queen);
@@ -86,20 +74,24 @@ public class BoardState {
     }
 
     public void printBoard() {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 1; i < GameOfAmazon.BOARD_SIZE; i++) {
+            for (int j = 1; j < GameOfAmazon.BOARD_SIZE; j++) {
                 System.out.print(board[i][j] + " ");
             }
             System.out.println();
         }
     }
 
-    public ArrayList<BoardAction> possibleActions() {
+    public List<BoardAction> possibleActions() {
         return new ActionFactory().generateActions(this);
     }
 
+    public List<BoardAction> possibleActionsV2() {
+        return new ActionFactory().generateActionsV2(this);
+    }
+
     public ArrayList<int[]> getEmptyAdjacentPositions(int row, int col) {
-        ArrayList<int[]> positions = new ArrayList<int[]>();
+        ArrayList<int[]> positions = new ArrayList<>();
     
         // Check all adjacent positions
         for (int i = row - 1; i <= row + 1; i++) {
@@ -109,7 +101,7 @@ public class BoardState {
                     continue;
                 }
                 // Check if position is on board
-                if (i >= 0 && i < 10 && j >= 0 && j < 10) {
+                if (i >= 1 && i < GameOfAmazon.BOARD_SIZE && j >= 1 && j < GameOfAmazon.BOARD_SIZE) {
                     // Check if position is empty
                     if (board[i][j] == EMPTY) {
                         positions.add(new int[] {i, j});
@@ -119,5 +111,29 @@ public class BoardState {
         }
     
         return positions;
+    }
+
+    public boolean isTerminal() {
+        if (playedBy == WHITE) {
+            return WHITEQUEENS.isEmpty();
+        } else {
+            return BLACKQUEENS.isEmpty();
+        }
+    }
+
+    /**
+     * Returns the utility of the board state
+     * @return
+     */
+    public int utility() {
+        if (isTerminal()) {
+            if (playedBy == WHITE) {
+                return Integer.MIN_VALUE;
+            } else {
+                return Integer.MAX_VALUE;
+            }
+        } else {
+            return 0;
+        }
     }
 }
