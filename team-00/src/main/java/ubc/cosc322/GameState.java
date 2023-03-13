@@ -1,13 +1,13 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
-import java.util.Map;
+
 
 public class GameState {
 	private ArrayList<Integer> gameState;
 	private int[][] boardState=new int[11][11];
 	private int player;
-	private int turn;
+	
 	private ActionFactory actionFac;
 	public GameState(ArrayList<Integer> gameState) {
 		this.gameState=gameState;
@@ -40,12 +40,7 @@ public class GameState {
 	public int getPlayer() {
 		return player;
 	}
-	public void setTurn(int turn) {
-		this.turn=turn;
-	}
-	public int getTurn() {
-		return turn;
-	}
+
 	public void updateBoardState(ArrayList<Integer>qOld,ArrayList<Integer>qNew,ArrayList<Integer>arrow) {
 		if(	boardState[qOld.get(0)][qOld.get(1)]==1) {
 			boardState[qOld.get(0)][qOld.get(1)]=0;

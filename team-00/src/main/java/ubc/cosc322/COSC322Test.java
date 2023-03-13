@@ -25,12 +25,10 @@ public class COSC322Test extends GamePlayer{
 	
     private String userName = null;
     private String passwd = null;
-    
-    private int player=0;
-    private int turn=1;
-    
+       
     private GameState game;
     private AI ai;
+    public static int count;
 	
     /**
      * The main method
@@ -92,21 +90,21 @@ public class COSC322Test extends GamePlayer{
 	        this.getGameGUI().setGameState((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.GAME_STATE));
 	        game = new GameState((ArrayList<Integer>)msgDetails.get(AmazonsGameMessage.GAME_STATE));
 	        game.printGameState();
+
 	        break;
 		case GameMessage.GAME_ACTION_START:
 			System.out.println("The game has started!");
 			String playerWhite = (String) msgDetails.get(AmazonsGameMessage.PLAYER_WHITE);
+			String playerBlack = (String) msgDetails.get(AmazonsGameMessage.PLAYER_BLACK);
 	
 			if (playerWhite.equals(userName)) {
-				game.setPlayer(1);
+				game.setPlayer(2);
+				System.out.println(playerWhite+" is playing as White");
 				play();
 			} else {
-				game.setPlayer(2);
+				game.setPlayer(1);
+				System.out.println(playerBlack+ " is playing as Black");
 			}
-//			game.setPlayer(player);
-//			game.setTurn(1);
-//			if(game.getTurn()==player)
-//				play();
 			break;
        
         case GameMessage.GAME_ACTION_MOVE:
@@ -123,8 +121,9 @@ public class COSC322Test extends GamePlayer{
     public void play() {
     	//AI implementation
 		//gameClient.sendMoveMessage(queenNew, queenNew, arrow); // send the move to the server
-    	ai = new AI(game);
-    	ArrayList<int[]> bestMove = ai.minimax(game.getBoardState(), 3,Integer.MIN_VALUE,Integer.MAX_VALUE,player==1);
+    	ai = new AI(game.getPlayer());
+    	ArrayList<ArrayList<int[]>> result= ai.minimax(game.getBoardState(),1,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==2);
+    	ArrayList<int[]> bestMove=result.get(1);
 		ArrayList<Integer> queenCurrent = new ArrayList<Integer>();
 		ArrayList<Integer> queenNew = new ArrayList<Integer>();
 		ArrayList<Integer> arrow = new ArrayList<Integer>();
@@ -134,13 +133,14 @@ public class COSC322Test extends GamePlayer{
 		queenNew.add(bestMove.get(1)[1]);
 		arrow.add(bestMove.get(2)[0]);
 		arrow.add(bestMove.get(2)[1]);
-
 		gameClient.sendMoveMessage(queenCurrent, queenNew, arrow);
 		gamegui.updateGameState(queenCurrent, queenNew, arrow); // update the game state
 		game.updateBoardState(queenCurrent, queenNew, arrow);
 		System.out.println("Made a move");
 		System.out.println(queenCurrent+" "+queenNew+" "+arrow);
-		//game.printGameState();
+		game.printGameState();
+		System.out.println("Moves made "+(++count));
+    	
     }
     
     
@@ -153,43 +153,10 @@ public class COSC322Test extends GamePlayer{
 		queenNew = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.QUEEN_POS_NEXT);
 		arrow = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.ARROW_POS);
 		game.updateBoardState(queenCurrent,queenNew,arrow);
-		//System.out.println(queenCurrent+" "+queenNew+" "+arrow);
 		//game.printGameState();
 		play();
     }
-//    public void playTurn(Map<String, Object> msgDetails) {
-//		ArrayList<Integer> queenCurrent = new ArrayList<Integer>();
-//		ArrayList<Integer> queenNew = new ArrayList<Integer>();
-//		ArrayList<Integer> arrow = new ArrayList<Integer>();
-//		if (turn == player) {
-//			System.out.println("It's my turn");
-//			// YOUR AI IMPLEMENTATION GOES HERE
-//			// queenCurrent = YOUR CURRENT QUEEN POSITION [row, col]
-//			// queenNew = YOUR NEW QUEEN POSITION [row, col]
-//			// arrow = YOUR ARROW POSITION [row, col]
-//			queenCurrent.add(rng());
-//			queenCurrent.add(rng());
-//			queenNew.add(rng());
-//			queenNew.add(rng());
-//			arrow.add(rng());
-//			arrow.add(rng());
-//			gameClient.sendMoveMessage(queenCurrent,queenNew,arrow);
-//			//game.play();
-//		} else {
-//			queenCurrent = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR);
-//			queenNew = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.QUEEN_POS_NEXT);
-//			arrow = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.ARROW_POS);
-//		}
-//		// gamegui.updateGameState(msgDetails); // update the game state
-//		gamegui.updateGameState(queenCurrent, queenNew, arrow); // update the game state
-//		gameClient.sendMoveMessage(queenNew, queenNew, arrow); // send the move to the server
-//	}
 
-	public int rng() {
-		// generate random number from 1 to 10
-		Random rand = new Random();
-		return rand.nextInt(10) + 1;
-	}
     @Override
     public String userName() {
     	return userName;

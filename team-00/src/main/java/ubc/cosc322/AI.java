@@ -3,38 +3,34 @@ package ubc.cosc322;
 import java.util.ArrayList;
 
 public class AI {
-	
-	GameState game;
-	int[][] currentBoard;
+	static int player;
 	static ActionFactory actionFac;
-	public AI(GameState game) {
-		this.game=game;
-		game.setActionFac();
-		actionFac=game.getActionFac();
-		currentBoard = game.getBoardState();
+	
+	public AI(int player) {
+		AI.player = player;
 		
 	}
-public int[][] getCurrentBoard() {
-		return currentBoard;
-	}
-public ArrayList<int[]> minimax(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
+
+public ArrayList<ArrayList<int[]>> minimax(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
 	
-	int bestScore=0;
 	if(depth==0) {
-		ArrayList<int[]> eval =new ArrayList<int[]>();
-		eval.add(new int[]{evaluation(position)});
-		return eval;
+		ArrayList<ArrayList<int[]>> result=new ArrayList<ArrayList<int[]>>();
+		int eval=evaluate(position);
+		ArrayList<int[]> evaluation = new ArrayList<int[]>();
+		evaluation.add(new int[]{eval});
+		result.add(evaluation);
+		return result;
 	}
-	ArrayList<int[]> bestMove = new ArrayList<int[]>();
 	if(maximizingPlayer) {
 		int maxEval = Integer.MIN_VALUE;
+		actionFac = new ActionFactory(position,player);
+		ArrayList<int[]> bestMove=null;
 		for(ArrayList<int[]> move:actionFac.actions()) {
-			int child[][]=makeMove(move);
-			int eval = minimax(child,depth-1,alpha,beta,false).get(0)[0];
-			if(eval>maxEval)
+			int child[][]=makeMove(move,position);
+			int eval = minimax(child,depth-1,alpha,beta,false).get(0).get(0)[0];
+			maxEval = Math.max(maxEval, eval);
+			if(maxEval==eval)
 			{
-				maxEval=eval;
-				bestScore=maxEval;
 				bestMove=move;
 			}
 			alpha = Math.max(alpha,eval);
@@ -42,17 +38,23 @@ public ArrayList<int[]> minimax(int[][] position, int depth, int alpha, int beta
 				break;
 			
 		}
+		ArrayList<ArrayList<int[]>> result=new ArrayList<ArrayList<int[]>>();
+		ArrayList<int[]> evaluation = new ArrayList<int[]>();
+		evaluation.add(new int[]{maxEval});
+		result.add(evaluation);
+		result.add(bestMove);
+		return result ;
 	}
 	else {
 		int minEval = Integer.MAX_VALUE;
+		actionFac = new ActionFactory(position,player);
+		ArrayList<int[]> bestMove = null;
 		for(ArrayList<int[]> move:actionFac.actions()) {
-			int child[][]=makeMove(move);
-			int eval = minimax(child,depth-1,alpha,beta,true).get(0)[0];
-			//minEval = Math.min(minEval,eval);
-			if(eval<minEval)
+			int child[][]=makeMove(move,position);
+			int eval = minimax(child,depth-1,alpha,beta,true).get(0).get(0)[0];
+			minEval = Math.min(eval,minEval);
+			if(eval==minEval)
 			{
-				minEval=eval;
-				bestScore=minEval;
 				bestMove=move;
 			}
 			beta = Math.min(beta,eval);
@@ -60,32 +62,18 @@ public ArrayList<int[]> minimax(int[][] position, int depth, int alpha, int beta
 				break;
 			
 		}
-		
+		ArrayList<ArrayList<int[]>> result=new ArrayList<ArrayList<int[]>>();
+		ArrayList<int[]> evaluation = new ArrayList<int[]>();
+		evaluation.add(new int[]{minEval});
+		result.add(evaluation);
+		result.add(bestMove);
+		return result;
 	}
-	//System.out.println("Position Evaluation: "+bestScore);
-	return  bestMove;
 	
 }
+ 
 
-	private int evaluation(int[][] position) {
-	// TODO Auto-generated method stub
-	return 0;
-}
-//	private ArrayList<int[][]>children(){
-//		ArrayList<int[][]> children = new ArrayList<int[][]>();
-//		ArrayList<ArrayList<int[]>> actions = actionFac.actions();
-//		for(ArrayList<int[]>action:actions) {
-//			int[][] child = makeMove(action);
-//			children.add(child);
-//			
-//		}
-//			
-//		
-//		return children;
-//		
-//	}
-	//Makes 
-	private int[][] boardCopy(){
+	private int[][] boardCopy(int[][] currentBoard){
 		int n=currentBoard.length;
 		int[][] copy = new int[n][n];
 		for(int i=0; i<n; i++)
@@ -93,21 +81,22 @@ public ArrayList<int[]> minimax(int[][] position, int depth, int alpha, int beta
 			    copy[i][j]=currentBoard[i][j];
 		return copy;
 	}
-	private int[][] makeMove(ArrayList<int[]> action){
+	private int[][] makeMove(ArrayList<int[]> action,int[][] currentPosition){
 		
-		int[][] child = boardCopy();
+		int[][] child = boardCopy(currentPosition);
 		int[] qOld= action.get(0);
 		int[] qNew=action.get(1);
 		int[] arrow = action.get(2);
 		child[qOld[0]][qOld[1]]=0;
-		child[qNew[0]][qNew[1]]=game.getPlayer();
+		child[qNew[0]][qNew[1]]=player;
 		child[arrow[0]][arrow[1]]=3;
 			
 		return child;
 	}
 	
 	//evaluation function
-	public static int evaluate(int player) {
+	public static int evaluate(int[][] position) {
+		actionFac = new ActionFactory(position,player);
 	    int minDistanceSum = 0;
 	    for (int[] myQueens : actionFac.getQueenPosition()) {
 	        int minDistance = Integer.MAX_VALUE;
@@ -139,6 +128,7 @@ public ArrayList<int[]> minimax(int[][] position, int depth, int alpha, int beta
 	    int dy = Math.abs(myQueens[1] - opponentQueens[1]);
 	    return Math.max(dx, dy);
 	}
+
 
 }
 
