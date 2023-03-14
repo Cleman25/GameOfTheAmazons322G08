@@ -96,7 +96,7 @@ public class COSC322Test extends GamePlayer{
 			System.out.println("The game has started!");
 			String playerWhite = (String) msgDetails.get(AmazonsGameMessage.PLAYER_WHITE);
 			String playerBlack = (String) msgDetails.get(AmazonsGameMessage.PLAYER_BLACK);
-	
+	/*made 2 white because the board counts row from the bottom when you send the moves. I have not figured out how to reconcile it yet*/
 			if (playerWhite.equals(userName)) {
 				game.setPlayer(2);
 				System.out.println(playerWhite+" is playing as White");
@@ -122,7 +122,7 @@ public class COSC322Test extends GamePlayer{
     	//AI implementation
 		//gameClient.sendMoveMessage(queenNew, queenNew, arrow); // send the move to the server
     	ai = new AI(game.getPlayer());
-    	ArrayList<ArrayList<int[]>> result= ai.minimax(game.getBoardState(),1,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==2);
+    	ArrayList<ArrayList<int[]>> result= ai.minimax(game.getBoardState(),2,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==2);
     	ArrayList<int[]> bestMove=result.get(1);
 		ArrayList<Integer> queenCurrent = new ArrayList<Integer>();
 		ArrayList<Integer> queenNew = new ArrayList<Integer>();
@@ -138,7 +138,7 @@ public class COSC322Test extends GamePlayer{
 		game.updateBoardState(queenCurrent, queenNew, arrow);
 		System.out.println("Made a move");
 		System.out.println(queenCurrent+" "+queenNew+" "+arrow);
-		game.printGameState();
+		//game.printGameState();
 		System.out.println("Moves made "+(++count));
     	
     }

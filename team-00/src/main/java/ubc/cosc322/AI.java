@@ -96,39 +96,22 @@ public ArrayList<ArrayList<int[]>> minimax(int[][] position, int depth, int alph
 	
 	//evaluation function
 	public static int evaluate(int[][] position) {
-		actionFac = new ActionFactory(position,player);
-	    int minDistanceSum = 0;
-	    for (int[] myQueens : actionFac.getQueenPosition()) {
-	        int minDistance = Integer.MAX_VALUE;
-	        for (int[] opponentQueens : actionFac.getOpponentQueenPosition()) {
-	            int distance = calculateDistance(myQueens, opponentQueens);
-	            if (distance < minDistance) {
-	                minDistance = distance;
-	            }
-	        }
-	        minDistanceSum += minDistance;
-	    }
-	    int opponentMinDistanceSum = 0;
-	    for (int[] opponentQueens : actionFac.getOpponentQueenPosition()) {
-	        int minDistance = Integer.MAX_VALUE;
-	        for (int[] myQueens : actionFac.getQueenPosition()) {
-	            int distance = calculateDistance(myQueens, opponentQueens);
-	            if (distance < minDistance) {
-	                minDistance = distance;
-	            }
-	        }
-	        opponentMinDistanceSum += minDistance;
-	    }
-	    return minDistanceSum - opponentMinDistanceSum;
+		return 0;
 	}
 
 
-	private static int calculateDistance(int[] myQueens, int[] opponentQueens) {
-	    int dx = Math.abs(myQueens[0] - opponentQueens[0]);
-	    int dy = Math.abs(myQueens[1] - opponentQueens[1]);
-	    return Math.max(dx, dy);
+	public class Node{
+		private int eval;
+		private int[][] position;
+		
+		public Node(int eval,int[][] position) {
+			
+			this.eval=eval;
+			this.position=position;
+			
+			
+		}
+
 	}
-
-
 }
 
