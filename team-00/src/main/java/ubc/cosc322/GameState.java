@@ -14,13 +14,36 @@ public class GameState {
 		setBoardState();	
 	}
 	public int[][] setBoardState() {
-		int count=0;
-		for(int i=0;i<boardState.length;i++)
-			for(int j=0;j<boardState.length;j++) {
-				boardState[i][j]=gameState.get(count);
-				count++;
-			}
+//		int count=0;
+//		for(int i=0;i<boardState.length;i++)
+//			for(int j=0;j<boardState.length;j++) {
+//				boardState[i][j]=gameState.get(count);
+//				count++;
+//			}
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		boardState=new int[][] {
+				{0,0,0,0,0,0,0,0,0,0,0}, //0
+				{0,0,0,0,1,0,0,1,0,0,0}, //1
+				{0,0,0,0,0,0,0,0,0,0,0}, //2
+				{0,0,0,0,0,0,0,0,0,0,0}, //3
+				{0,1,0,0,0,0,0,0,0,0,1}, //4
+				{0,0,0,0,0,0,0,0,0,0,0}, //5
+				{0,0,0,0,0,0,0,0,0,0,0}, //6
+				{0,2,0,0,0,0,0,0,0,0,2}, //7
+				{0,0,0,0,0,0,0,0,0,0,0}, //8
+				{0,0,0,0,0,0,0,0,0,0,0}, //9
+				{0,0,0,0,2,0,0,2,0,0,0} //11
+				
+		};
 		return boardState;
 		
 	}

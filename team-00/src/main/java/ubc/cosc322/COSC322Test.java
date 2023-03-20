@@ -98,18 +98,18 @@ public class COSC322Test extends GamePlayer{
 			String playerBlack = (String) msgDetails.get(AmazonsGameMessage.PLAYER_BLACK);
 	/*made 2 white because the board counts row from the bottom when you send the moves. I have not figured out how to reconcile it yet*/
 			if (playerWhite.equals(userName)) {
-				game.setPlayer(2);
+				game.setPlayer(1);
 				System.out.println(playerWhite+" is playing as White");
 				play();
 			} else {
-				game.setPlayer(1);
+				game.setPlayer(2);
 				System.out.println(playerBlack+ " is playing as Black");
 			}
 			break;
        
         case GameMessage.GAME_ACTION_MOVE:
         	System.out.println("Received a move message");
-	        this.getGameGUI().updateGameState(msgDetails);
+	        gamegui.updateGameState(msgDetails);
 			play(msgDetails);
 	    default:
 	        	assert(false) :"Unknown message type: "+messageType;
@@ -122,8 +122,8 @@ public class COSC322Test extends GamePlayer{
     	//AI implementation
 		//gameClient.sendMoveMessage(queenNew, queenNew, arrow); // send the move to the server
     	ai = new AI(game.getPlayer());
-    	ArrayList<ArrayList<int[]>> result= ai.minimax(game.getBoardState(),2,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==2);
-    	ArrayList<int[]> bestMove=result.get(1);
+    	int eval= ai.minimax(game.getBoardState(),3,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==1);
+    	ArrayList<int[]> bestMove=ai.getBestMove();
 		ArrayList<Integer> queenCurrent = new ArrayList<Integer>();
 		ArrayList<Integer> queenNew = new ArrayList<Integer>();
 		ArrayList<Integer> arrow = new ArrayList<Integer>();
@@ -133,12 +133,15 @@ public class COSC322Test extends GamePlayer{
 		queenNew.add(bestMove.get(1)[1]);
 		arrow.add(bestMove.get(2)[0]);
 		arrow.add(bestMove.get(2)[1]);
-		gameClient.sendMoveMessage(queenCurrent, queenNew, arrow);
-		gamegui.updateGameState(queenCurrent, queenNew, arrow); // update the game state
 		game.updateBoardState(queenCurrent, queenNew, arrow);
 		System.out.println("Made a move");
 		System.out.println(queenCurrent+" "+queenNew+" "+arrow);
-		//game.printGameState();
+		game.printGameState();
+		gameClient.sendMoveMessage(queenCurrent, queenNew, arrow);
+		gamegui.updateGameState(queenCurrent, queenNew, arrow); // update the game state
+//		System.out.println("Made a move");
+//		System.out.println(queenCurrent+" "+queenNew+" "+arrow);
+		
 		System.out.println("Moves made "+(++count));
     	
     }
@@ -153,7 +156,7 @@ public class COSC322Test extends GamePlayer{
 		queenNew = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.QUEEN_POS_NEXT);
 		arrow = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.ARROW_POS);
 		game.updateBoardState(queenCurrent,queenNew,arrow);
-		//game.printGameState();
+		game.printGameState();
 		play();
     }
 

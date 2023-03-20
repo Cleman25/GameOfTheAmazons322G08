@@ -82,15 +82,7 @@ public class ActionFactory {
 					
 		return queenPos;
 	}
-	public ArrayList<int[]> getQueenPosition(int[][] b){
-		ArrayList<int[]> queenPos=new ArrayList<int[]>();
-		for(int i=0;i<b.length;i++)
-			for(int j=0;j<b.length;j++)
-				if(b[i][j]==player)
-					queenPos.add(new int[]{i,j} );
-					
-		return queenPos;
-	}
+
 	public ArrayList<int[]> getOpponentQueenPosition(){
 		ArrayList<int[]> queenPos=new ArrayList<int[]>();
 		for(int i=0;i<board.length;i++)
@@ -100,6 +92,7 @@ public class ActionFactory {
 					
 		return queenPos;
 	}
+
 	public ArrayList<ArrayList<int[]>> actions(){
 		ArrayList<ArrayList<int[]>> actions = new ArrayList<ArrayList<int[]>>();
 		ArrayList<int[]> queenPos=getQueenPosition();
@@ -115,7 +108,7 @@ public class ActionFactory {
 				move.add(qMove);
 				boardTemp=makeMove(move,boardTemp);
 				ArrayList<int[]> arrowMoves = getArrowMoves(qMove,boardTemp);
-				System.out.println(queenPos.size()+": "+queenMoves.size()+": "+arrowMoves.size());
+				//System.out.println(queenPos.size()+": "+queenMoves.size()+": "+arrowMoves.size());
 				//System.out.println(arrowMoves);
 				for(int[] aMove:arrowMoves) {
 					int[] arrowMove = aMove;
@@ -123,7 +116,7 @@ public class ActionFactory {
 					action.add(qMove);
 					action.add(arrowMove);
 					actions.add(action);
-					System.out.println("["+pos[0]+","+pos[1]+"]"+","+"["+qMove[0]+","+qMove[1]+"]"+","+"["+aMove[0]+","+aMove[1]+"]");
+					//System.out.println("["+pos[0]+","+pos[1]+"]"+","+"["+qMove[0]+","+qMove[1]+"]"+","+"["+aMove[0]+","+aMove[1]+"]");
 				}
 			
 			}
