@@ -123,8 +123,8 @@ public class COSC322Test extends GamePlayer {
     	//AI implementation
 		//gameClient.sendMoveMessage(queenNew, queenNew, arrow); // send the move to the server
     	ai = new AI(game.getPlayer());
-    	int eval= ai.minimax(game.getBoardState(),1,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==1);
-    	ArrayList<int[]> bestMove=ai.getBestMove();
+    	// int eval= ai.minimax(game.getBoardState(),2,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==1);
+    	ArrayList<int[]> bestMove=ai.getBestMove(game.getBoardState(),2,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==2);
 		ArrayList<Integer> queenCurrent = new ArrayList<Integer>();
 		ArrayList<Integer> queenNew = new ArrayList<Integer>();
 		ArrayList<Integer> arrow = new ArrayList<Integer>();

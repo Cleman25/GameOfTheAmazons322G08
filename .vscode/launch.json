@@ -6,24 +6,16 @@
     "configurations": [
         {
             "type": "java",
-            "name": "COSC322Test",
-            "request": "launch",
-            "mainClass": "ubc.cosc322.COSC322Test",
-            "projectName": "team-00"
-        },
-        {
-            "type": "java",
             "name": "Current File",
             "request": "launch",
-            "mainClass": "${file}",
-            "args": "Cleman25 123"
+            "mainClass": "${file}"
         },
         {
             "type": "java",
             "name": "COSC322Test",
             "request": "launch",
             "mainClass": "ubc.cosc322.COSC322Test",
-            "projectName": "team-08",
+            "projectName": "team-00",
             "args": "Cleman25 123"
         }
     ]

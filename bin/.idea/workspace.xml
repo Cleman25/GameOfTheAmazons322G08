@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="64a35e20-3c17-49ba-bdf8-5dfecf4761d8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/ubc/cosc322/ActionFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ubc/cosc322/ActionFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ubc/cosc322/BoardState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ubc/cosc322/BoardState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ubc/cosc322/COSC322Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ubc/cosc322/COSC322Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ubc/cosc322/GameOfAmazon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ubc/cosc322/GameOfAmazon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ubc/cosc322/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ubc/cosc322/Queen.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2MNxWIC5hCGIM4H9tmG7JE4AL5W" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/cleme/OneDrive/cosc_322/game-player-team-00-2021/team-08",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="64a35e20-3c17-49ba-bdf8-5dfecf4761d8" name="Changes" comment="" />
+      <created>1677621873604</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1677621873604</updated>
+      <workItem from="1677621876471" duration="2574000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
