@@ -96,11 +96,11 @@ public class ActionFactory {
 	public ArrayList<ArrayList<int[]>> actions(){
 		ArrayList<ArrayList<int[]>> actions = new ArrayList<ArrayList<int[]>>();
 		ArrayList<int[]> queenPos=getQueenPosition();
-		//System.out.print(queenPos+":");
+		
 		for(int[] pos:queenPos) {
 			ArrayList<int[]> action = new ArrayList<int[]>();
 			ArrayList<int[]> queenMoves = getQueenMoves(pos);
-			//System.out.print(queenMoves+":");
+			
 			for(int[] qMove:queenMoves) {
 				int[][] boardTemp = boardCopy(board);
 				ArrayList<int[]> move = new ArrayList<int[]>();
@@ -108,21 +108,20 @@ public class ActionFactory {
 				move.add(qMove);
 				boardTemp=makeMove(move,boardTemp);
 				ArrayList<int[]> arrowMoves = getArrowMoves(qMove,boardTemp);
-				//System.out.println(queenPos.size()+": "+queenMoves.size()+": "+arrowMoves.size());
-				//System.out.println(arrowMoves);
+
 				for(int[] aMove:arrowMoves) {
 					int[] arrowMove = aMove;
 					action.add(pos);
 					action.add(qMove);
 					action.add(arrowMove);
 					actions.add(action);
-					//System.out.println("["+pos[0]+","+pos[1]+"]"+","+"["+qMove[0]+","+qMove[1]+"]"+","+"["+aMove[0]+","+aMove[1]+"]");
+					
 				}
 			
 			}
 			
 		}
-		// System.out.println(actions.size());
+		//System.out.println(actions.size());
 		return actions;
 	}
 	
