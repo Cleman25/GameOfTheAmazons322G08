@@ -110,7 +110,6 @@ public class COSC322Test extends GamePlayer{
        
         case GameMessage.GAME_ACTION_MOVE:
         	System.out.println("Received a move message");
-	        gamegui.updateGameState(msgDetails);
 			play(msgDetails);
 	    default:
 	        	assert(false) :"Unknown message type: "+messageType;
@@ -155,7 +154,9 @@ public class COSC322Test extends GamePlayer{
 		queenCurrent = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.QUEEN_POS_CURR);
 		queenNew = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.QUEEN_POS_NEXT);
 		arrow = (ArrayList<Integer>) msgDetails.get(AmazonsGameMessage.ARROW_POS);
+		gamegui.updateGameState(queenCurrent,queenNew,arrow);
 		game.updateBoardState(queenCurrent,queenNew,arrow);
+		System.out.println(queenCurrent+" "+queenNew+" "+arrow);
 		game.printGameState();
 		play();
     }
