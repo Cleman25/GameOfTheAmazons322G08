@@ -24,7 +24,7 @@ public class AI {
 		
 		if(depth==0) {
 			ArrayList<ArrayList<int[]>> result=new ArrayList<ArrayList<int[]>>();
-			int eval=evaluate(position);
+			int eval=evaluateN(position);
 			ArrayList<int[]> evaluation = new ArrayList<int[]>();
 			evaluation.add(new int[]{eval});
 			result.add(evaluation);
@@ -574,6 +574,17 @@ public class AI {
 	            System.out.println();
 	        }
 	 }
+
+	 //check if game is over
+	public boolean isGameOver(int[][]position) {
+		actionFac = new ActionFactory(position,player);
+		if (actionFac.actions().isEmpty()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 }
 
