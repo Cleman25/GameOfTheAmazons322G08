@@ -9,12 +9,26 @@ public class AI {
 	
 	public ArrayList<int[]> getBestMove(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
 		ArrayList<ArrayList<int[]>> result= minimax(position,depth,alpha,beta,maximizingPlayer);
+<<<<<<< HEAD
 	    return result.get(1);
 	}
 	public AI(int player) {
 		this.player=player;
 	}
 
+=======
+		System.out.println(result.get(0).get(0)[0]);
+	    return result.get(1);
+	}
+//	public ArrayList<int[]> getBestMove(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
+//		int eval= minimax(position,depth,alpha,beta,maximizingPlayer);
+//		System.out.println(eval);
+//	    return bestMove;
+//	}
+	public AI(int player) {
+		this.player=player;
+	}
+>>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 	public ArrayList<ArrayList<int[]>> minimax(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
 		
 		if(depth==0) {
@@ -57,10 +71,16 @@ public class AI {
 				int child[][]=makeMove(move,position);
 				int eval = minimax(child,depth-1,alpha,beta,true).get(0).get(0)[0];
 				minEval = Math.min(eval,minEval);
+<<<<<<< HEAD
 				if(eval==minEval)
 				{
 					bestMove=move;
 				}
+=======
+				if(eval==minEval) {
+				bestMove=move;
+			}
+>>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 				beta = Math.min(beta,eval);
 				if(beta<=alpha)
 					break;
@@ -84,6 +104,7 @@ public class AI {
 //	if(maximizingPlayer) {
 //		int maxEval = Integer.MIN_VALUE;
 //		actionFac = new ActionFactory(position,player);
+<<<<<<< HEAD
 //		bestMove=null;
 //		for(ArrayList<int[]> move:actionFac.actions()) {
 //			int child[][]=makeMove(move,position);
@@ -92,6 +113,15 @@ public class AI {
 //			{
 //				maxEval=eval;
 //				this.bestMove=move;
+=======
+//		for(ArrayList<int[]> move:actionFac.actions()) {
+//			int child[][]=makeMove(move,position);
+//			int eval = minimax(child,depth-1,alpha,beta,false);
+//			maxEval = Math.max(maxEval, eval);
+//			if(maxEval==eval)
+//			{
+//				bestMove=move;
+>>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 //			}
 //			
 //			alpha = Math.max(alpha,eval);
@@ -103,6 +133,7 @@ public class AI {
 //	else {
 //		int minEval = Integer.MAX_VALUE;
 //		actionFac = new ActionFactory(position,player);
+<<<<<<< HEAD
 //		bestMove=null;
 //		for(ArrayList<int[]> move:actionFac.actions()) {
 //			int child[][]=makeMove(move,position);
@@ -112,6 +143,16 @@ public class AI {
 //				minEval=eval;
 //				this.bestMove=move;
 //			}
+=======
+//		for(ArrayList<int[]> move:actionFac.actions()) {
+//			int child[][]=makeMove(move,position);
+//			int eval = minimax(child,depth-1,alpha,beta,true);
+//			minEval = Math.min(eval,minEval);
+//			if(eval==minEval) {
+//				bestMove=move;
+//		}
+//			
+>>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 //			beta = Math.min(beta,eval);
 //			if(beta<=alpha)
 //				break;
@@ -121,7 +162,11 @@ public class AI {
 //	}
 //	
 //}
+<<<<<<< HEAD
 // 
+=======
+ 
+>>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 
 	private int[][] boardCopy(int[][] currentBoard){
 		int n=currentBoard.length;
@@ -173,7 +218,7 @@ public class AI {
 		}
 		
 		//Possible moves score
-		int pScore=wpm-bpm;
+		int pScore=bpm-wpm;
 		
 		//Calculate territory score
 		
@@ -579,5 +624,10 @@ public class AI {
 	            System.out.println();
 	        }
 	 }
+<<<<<<< HEAD
+=======
+
+}
+>>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 
 }

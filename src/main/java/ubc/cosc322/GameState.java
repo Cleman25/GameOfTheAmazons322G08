@@ -20,7 +20,7 @@ public class GameState {
 //				boardState[i][j]=gameState.get(count);
 //				count++;
 //			}
-		
+//		
 		
 		
 		
@@ -77,12 +77,10 @@ public class GameState {
 		
 	}
 	public void printGameState() {
-		System.out.println("Player: "+player);
-		System.out.println("Board State: ");
-		for(int i=1;i<boardState.length;i++) {
-			for(int j=1;j<boardState.length;j++) {
-				System.out.print(boardState[i][j]+" ");	
-			}
+			for(int i=0;i<boardState.length;i++) {
+				for(int j=0;j<boardState.length;j++) {
+					System.out.print(boardState[i][j]+" ");	
+				}
 			System.out.println();
 		}
 	}
