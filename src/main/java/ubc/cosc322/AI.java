@@ -9,14 +9,6 @@ public class AI {
 	
 	public ArrayList<int[]> getBestMove(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
 		ArrayList<ArrayList<int[]>> result= minimax(position,depth,alpha,beta,maximizingPlayer);
-<<<<<<< HEAD
-	    return result.get(1);
-	}
-	public AI(int player) {
-		this.player=player;
-	}
-
-=======
 		System.out.println(result.get(0).get(0)[0]);
 	    return result.get(1);
 	}
@@ -28,7 +20,6 @@ public class AI {
 	public AI(int player) {
 		this.player=player;
 	}
->>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 	public ArrayList<ArrayList<int[]>> minimax(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
 		
 		if(depth==0) {
@@ -71,16 +62,9 @@ public class AI {
 				int child[][]=makeMove(move,position);
 				int eval = minimax(child,depth-1,alpha,beta,true).get(0).get(0)[0];
 				minEval = Math.min(eval,minEval);
-<<<<<<< HEAD
-				if(eval==minEval)
-				{
-					bestMove=move;
-				}
-=======
 				if(eval==minEval) {
 				bestMove=move;
 			}
->>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 				beta = Math.min(beta,eval);
 				if(beta<=alpha)
 					break;
@@ -104,16 +88,6 @@ public class AI {
 //	if(maximizingPlayer) {
 //		int maxEval = Integer.MIN_VALUE;
 //		actionFac = new ActionFactory(position,player);
-<<<<<<< HEAD
-//		bestMove=null;
-//		for(ArrayList<int[]> move:actionFac.actions()) {
-//			int child[][]=makeMove(move,position);
-//			int eval = minimax(child,depth-1,alpha,beta,false);
-//			if(eval>maxEval)
-//			{
-//				maxEval=eval;
-//				this.bestMove=move;
-=======
 //		for(ArrayList<int[]> move:actionFac.actions()) {
 //			int child[][]=makeMove(move,position);
 //			int eval = minimax(child,depth-1,alpha,beta,false);
@@ -121,7 +95,6 @@ public class AI {
 //			if(maxEval==eval)
 //			{
 //				bestMove=move;
->>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 //			}
 //			
 //			alpha = Math.max(alpha,eval);
@@ -133,17 +106,6 @@ public class AI {
 //	else {
 //		int minEval = Integer.MAX_VALUE;
 //		actionFac = new ActionFactory(position,player);
-<<<<<<< HEAD
-//		bestMove=null;
-//		for(ArrayList<int[]> move:actionFac.actions()) {
-//			int child[][]=makeMove(move,position);
-//			int eval = minimax(child,depth-1,alpha,beta,true);
-//		
-//			if(eval<minEval) {
-//				minEval=eval;
-//				this.bestMove=move;
-//			}
-=======
 //		for(ArrayList<int[]> move:actionFac.actions()) {
 //			int child[][]=makeMove(move,position);
 //			int eval = minimax(child,depth-1,alpha,beta,true);
@@ -152,7 +114,6 @@ public class AI {
 //				bestMove=move;
 //		}
 //			
->>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 //			beta = Math.min(beta,eval);
 //			if(beta<=alpha)
 //				break;
@@ -162,25 +123,18 @@ public class AI {
 //	}
 //	
 //}
-<<<<<<< HEAD
-// 
-=======
  
->>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 
 	private int[][] boardCopy(int[][] currentBoard){
 		int n=currentBoard.length;
 		int[][] copy = new int[n][n];
 		for(int i=0; i<n; i++)
-			  for(int j=0; j<n; j++) {
-				if (isQueenPos(currentBoard, i, j)) {
-					System.out.println("copy is queen pos");
-				}
+			  for(int j=0; j<n; j++)
 			    copy[i][j]=currentBoard[i][j];
-			  }
 		return copy;
 	}
 	private int[][] makeMove(ArrayList<int[]> action,int[][] currentPosition){
+		
 		int[][] child = boardCopy(currentPosition);
 		int[] qOld= action.get(0);
 		int[] qNew=action.get(1);
@@ -190,10 +144,6 @@ public class AI {
 		child[arrow[0]][arrow[1]]=3;
 			
 		return child;
-	}
-
-	public boolean isQueenPos(int[][] position, int i, int j) {
-		return (position[i][j]==1 || position[i][j]==2);
 	}
 	
 	//evaluation function
@@ -624,10 +574,6 @@ public class AI {
 	            System.out.println();
 	        }
 	 }
-<<<<<<< HEAD
-=======
 
 }
->>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
 
-}

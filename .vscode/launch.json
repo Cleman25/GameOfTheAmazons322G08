@@ -16,12 +16,8 @@
             "request": "launch",
             "mainClass": "ubc.cosc322.COSC322Test",
             "projectName": "team-00",
-<<<<<<< HEAD
-            "args": "Cleman25 123"
-=======
-            "args": "Allan 123"
+            "args": "Clement 123"
 
->>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
         }
     ]
 }

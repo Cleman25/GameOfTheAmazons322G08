@@ -122,11 +122,11 @@ public class COSC322Test extends GamePlayer{
     	//AI implementation
 		//gameClient.sendMoveMessage(queenNew, queenNew, arrow); // send the move to the server
     	ai = new AI(game.getPlayer());
-<<<<<<< HEAD
-    	// int eval= ai.minimax(game.getBoardState(),2,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==1);
-=======
->>>>>>> ef4dceac69009a46fce6a9a25c81da01892074f3
     	ArrayList<int[]> bestMove=ai.getBestMove(game.getBoardState(),2,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==2);
+		if (bestMove==null) {
+			System.out.println("No moves left");
+			return;
+		}
 		ArrayList<Integer> queenCurrent = new ArrayList<Integer>();
 		ArrayList<Integer> queenNew = new ArrayList<Integer>();
 		ArrayList<Integer> arrow = new ArrayList<Integer>();
