@@ -4,13 +4,23 @@ import java.util.ArrayList;
 
 public class AI {
 	static ActionFactory actionFac;
+	static ActionFactoryV2 actionFacV2;
 	private ArrayList<int[]> bestMove;
 	public int player=0;
 	
 	public ArrayList<int[]> getBestMove(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
-		ArrayList<ArrayList<int[]>> result= minimax(position,depth,alpha,beta,maximizingPlayer);
+		ArrayList<ArrayList<int[]>> result= minimaxV(position,depth,alpha,beta,maximizingPlayer);
+		// int[] res = minimax(position, depth, maximizingPlayer, alpha, beta);
 		System.out.println(result.get(0).get(0)[0]);
-	    return result.get(1);
+		return result.get(1);
+	}
+
+	public int[] getBestMoveV2(int[][] position, int depth, int alpha, int beta) {
+		// ArrayList<ArrayList<int[]>> result= minimaxV(position,depth,alpha,beta,maximizingPlayer);
+		int[] res = minimax(position, depth, player, alpha, beta);
+		// System.out.println(result.get(0).get(0)[0]);
+		System.out.println(res);
+		return res;
 	}
 //	public ArrayList<int[]> getBestMove(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
 //		int eval= minimax(position,depth,alpha,beta,maximizingPlayer);
@@ -20,11 +30,11 @@ public class AI {
 	public AI(int player) {
 		this.player=player;
 	}
-	public ArrayList<ArrayList<int[]>> minimax(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
+	public ArrayList<ArrayList<int[]>> minimaxV(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
 		
 		if(depth==0) {
 			ArrayList<ArrayList<int[]>> result=new ArrayList<ArrayList<int[]>>();
-			int eval=evaluate(position);
+			int eval=evaluateK(position);
 			ArrayList<int[]> evaluation = new ArrayList<int[]>();
 			evaluation.add(new int[]{eval});
 			result.add(evaluation);
@@ -32,11 +42,13 @@ public class AI {
 		}
 		if(maximizingPlayer) {
 			int maxEval = Integer.MIN_VALUE;
-			actionFac = new ActionFactory(position,player);
+			// actionFac = new ActionFactory(position,player);
+			actionFacV2 = new ActionFactoryV2(position,player);
 			ArrayList<int[]> bestMove=null;
-			for(ArrayList<int[]> move:actionFac.actions()) {
+			// for(ArrayList<int[]> move:actionFac.actions()) {
+			for(ArrayList<int[]> move:actionFacV2.actionsV2()) {
 				int child[][]=makeMove(move,position);
-				int eval = minimax(child,depth-1,alpha,beta,false).get(0).get(0)[0];
+				int eval = minimaxV(child,depth-1,alpha,beta,false).get(0).get(0)[0];
 				maxEval = Math.max(maxEval, eval);
 				if(maxEval==eval)
 				{
@@ -56,11 +68,13 @@ public class AI {
 		}
 		else {
 			int minEval = Integer.MAX_VALUE;
-			actionFac = new ActionFactory(position,player);
+			// actionFac = new ActionFactory(position,player);
+			actionFacV2 = new ActionFactoryV2(position,player);
 			ArrayList<int[]> bestMove = null;
-			for(ArrayList<int[]> move:actionFac.actions()) {
+			// for(ArrayList<int[]> move:actionFac.actions()) {
+			for(ArrayList<int[]> move:actionFacV2.actionsV2()) {
 				int child[][]=makeMove(move,position);
-				int eval = minimax(child,depth-1,alpha,beta,true).get(0).get(0)[0];
+				int eval = minimaxV(child,depth-1,alpha,beta,true).get(0).get(0)[0];
 				minEval = Math.min(eval,minEval);
 				if(eval==minEval) {
 				bestMove=move;
@@ -78,6 +92,102 @@ public class AI {
 			return result;
 		}
 		
+	}
+
+	// working on this one. Ignore it. We are currently using minimaxV
+	public int[] minimax(int[][] board, int depth, int player, int alpha, int beta) {
+		int bestScore = (player == 1) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+		int[] bestMove = new int[3];
+		ActionFactoryV2 aFactoryV2 = new ActionFactoryV2(board, player);
+		ArrayList<int[]> legalMoves = aFactoryV2.actions();
+	
+		// If we've reached the maximum depth or there are no legal moves, return the evaluation of the board
+		if (depth == 0 || legalMoves.size() == 0) {
+			int score = evaluate(board, player);
+			System.out.format("Score: %d", score);
+			return null;
+		}
+	
+		// Iterate over all legal moves and evaluate the resulting board states recursively
+		for (int[] move : legalMoves) {
+			int[][] tempBoard = makeMove(board, move);
+			int[] result = minimax(tempBoard, depth - 1, -player, alpha, beta);
+	
+			if (player == 1) {
+				if (result[2] > bestScore) {
+					bestScore = result[2];
+					bestMove = move;
+				}
+				alpha = Math.max(alpha, bestScore);
+			} else {
+				if (result[2] < bestScore) {
+					bestScore = result[2];
+					bestMove = move;
+				}
+				beta = Math.min(beta, bestScore);
+			}
+	
+			// Alpha-beta pruning
+			if (alpha >= beta) {
+				break;
+			}
+		}
+	
+		return bestMove;
+	}
+	
+	private int[][] makeMove(int[][] board, int[] move) {
+		int[][] child = new int[board.length][board[0].length];
+		int[] old = new int[] {move[0], move[1]};
+		int[] newP = new int[] {move[2], move[3]};
+        child[old[0]][old[1]] = 0;
+        child[newP[0]][newP[1]] = player;
+        return child;
+
+	}
+	public int evaluate(int[][] board, int player) {
+		int opponent = (player == 1) ? 2 : 1;
+		int myTerritory = 0;
+		int opponentTerritory = 0;
+	
+		// Count the number of empty spaces adjacent to each player's pieces
+		for (int i = 1; i <= 10; i++) {
+			for (int j = 1; j <= 10; j++) {
+				if (board[i][j] == player) {
+					for (int[] adj : getAdjacentSpaces(i, j)) {
+						if (board[adj[0]][adj[1]] == 0) {
+							myTerritory++;
+						}
+					}
+				} else if (board[i][j] == opponent) {
+					for (int[] adj : getAdjacentSpaces(i, j)) {
+						if (board[adj[0]][adj[1]] == 0) {
+							opponentTerritory++;
+						}
+					}
+				}
+			}
+		}
+	
+		// Return the difference in territory
+		return myTerritory - opponentTerritory;
+	}
+	
+	private ArrayList<int[]> getAdjacentSpaces(int row, int col) {
+		ArrayList<int[]> adjacents = new ArrayList<>();
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if (i == 0 && j == 0) {
+					continue;
+				}
+				int r = row + i;
+				int c = col + j;
+				if (r >= 1 && r <= 10 && c >= 1 && c <= 10) {
+					adjacents.add(new int[] {r, c});
+				}
+			}
+		}
+		return adjacents;
 	}
 
 //public int minimax(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
@@ -147,8 +257,9 @@ public class AI {
 	}
 	
 	//evaluation function
-	public static int evaluateN(int[][] position) {
-		actionFac = new ActionFactory(position,1);
+	public static int evaluateK(int[][] position) {
+		// actionFac = new ActionFactory(position,1);
+		actionFacV2 = new ActionFactoryV2(position,1);
 		int territory[][]= new int[11][11];
 		
 		ArrayList<int[]> whiteQueenPosition = whiteQueenPosition(position);
@@ -157,13 +268,15 @@ public class AI {
 		//get all possible moves white
 		int wpm=0;
 		for(int[] queenPos: whiteQueenPosition) {
-			ArrayList<int[]> queenMoves = actionFac.getQueenMoves(queenPos);
+			// ArrayList<int[]> queenMoves = actionFac.getQueenMoves(queenPos);
+			ArrayList<int[]> queenMoves = actionFacV2.generateMoves(queenPos[0],queenPos[1]);
 			wpm+=queenMoves.size();
 		}
 		//get all possbile black moves
 		int bpm=0;
 		for(int[] queenPos: blackQueenPosition) {
-			ArrayList<int[]> queenMoves = actionFac.getQueenMoves(queenPos);
+			// ArrayList<int[]> queenMoves = actionFac.getQueenMoves(queenPos);
+			ArrayList<int[]> queenMoves = actionFacV2.generateMoves(queenPos[0],queenPos[1]);
 			bpm+=queenMoves.size();
 		}
 		
@@ -197,7 +310,7 @@ public class AI {
 		return queenPos;
 	}
 
-	  public static int evaluate(int[][]currentBoard) {
+	  public static int evaluateN(int[][]currentBoard) {
 	        //default all distances to 100 so they are too big if there is no queen found 
 	        int xAxisDistancetoBQ = 100;
 	        int yAxisDistancetoBQ = 100;

@@ -122,19 +122,18 @@ public class COSC322Test extends GamePlayer{
     	//AI implementation
 		//gameClient.sendMoveMessage(queenNew, queenNew, arrow); // send the move to the server
     	ai = new AI(game.getPlayer());
-<<<<<<< HEAD
-    	ArrayList<int[]> bestMove=ai.getBestMove(game.getBoardState(),2,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==2);
-		if (bestMove==null) {
+    	ArrayList<int[]> bestMove= null;
+		bestMove = ai.getBestMove(game.getBoardState(),2,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==2);
+		// int[] bMove = ai.getBestMoveV2(game.getBoardState(), 2, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		if (bestMove == null || bestMove==null) {
 			System.out.println("No moves left");
 			return;
 		}
-=======
-    	ArrayList<int[]> bestMove=ai.getBestMove(game.getBoardState(),1,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==2);
->>>>>>> f504604763e4b6e8c17ba4be2e4daf22de614d9c
 		ArrayList<Integer> queenCurrent = new ArrayList<Integer>();
 		ArrayList<Integer> queenNew = new ArrayList<Integer>();
 		ArrayList<Integer> arrow = new ArrayList<Integer>();
 		queenCurrent.add(bestMove.get(0)[0]);
+		// queenCurrent.add(bMove[0]);
 		queenCurrent.add(bestMove.get(0)[1]);
 		queenNew.add(bestMove.get(1)[0]);
 		queenNew.add(bestMove.get(1)[1]);
