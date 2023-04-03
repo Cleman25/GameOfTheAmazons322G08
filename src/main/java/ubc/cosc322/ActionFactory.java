@@ -14,8 +14,8 @@ public class ActionFactory {
 
 	public List<int[]> getLegalMoves(int player) {
 		List<int[]> legalMoves = new ArrayList<int[]>(); // list of legal moves
-		for (int i = 1; i < 10; i++) {
-			for (int j = 1; j < 10; j++) {
+		for (int i = 1; i < 11; i++) {
+			for (int j = 1; j < 11; j++) {
 				if (board[i][j] == player) {
 					List<int[]> queenMoves = getQueenMoves(i, j);
 					List<int[]> queenShots = getQueenShots(i, j);
@@ -106,4 +106,31 @@ public class ActionFactory {
 		}
 		return false;
 	}
+
+	public static ArrayList<int[]> generateActions(Board board, int playerColor) {
+        ArrayList<int[]> actions = new ArrayList<>();
+        // iterate through each queen
+        for (int[] queen : board.getQueens(playerColor)) {
+            // iterate through each direction
+            for (Direction direction : Direction.values()) {
+                int[] currentPosition = { queen[0], queen[1] };
+                int[] newPosition = direction.move(currentPosition);
+                while (board.isPositionInsideBoard(newPosition) && board.isEmpty(newPosition)) {
+                    // iterate through each arrow position
+                    for (Direction arrowDirection : Direction.values()) {
+                        int[] arrowPosition = arrowDirection.move(newPosition);
+                        if (board.isPositionInsideBoard(arrowPosition) && board.isEmpty(arrowPosition)) {
+                            int[] action = { currentPosition[0], currentPosition[1],
+                                             newPosition[0], newPosition[1],
+                                             arrowPosition[0], arrowPosition[1] };
+                            actions.add(action);
+                        }
+                    }
+                    newPosition = direction.move(newPosition);
+                }
+            }
+        }
+        return actions;
+    }
 }
+
