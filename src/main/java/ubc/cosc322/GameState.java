@@ -51,7 +51,7 @@ public class GameState {
 		return actionFac;
 	}
 	public void setActionFac() {
-		this.actionFac = new ActionFactory(getBoardState(),getPlayer());
+		this.actionFac = new ActionFactory(getBoardState());
 	}
 	public int[][] getBoardState(){
 		return boardState;
