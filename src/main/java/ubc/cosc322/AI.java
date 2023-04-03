@@ -3,7 +3,7 @@ package ubc.cosc322;
 import java.util.ArrayList;
 
 public class AI {
-	static ActionFactory actionFac;
+	static ActionFactoryV2 actionFac;
 	private ArrayList<int[]> bestMove;
 	public int player=0;
 	
@@ -32,9 +32,9 @@ public class AI {
 		}
 		if(maximizingPlayer) {
 			int maxEval = Integer.MIN_VALUE;
-			actionFac = new ActionFactory(position,player);
+			actionFac = new ActionFactoryV2(position,player);
 			ArrayList<int[]> bestMove=null;
-			for(ArrayList<int[]> move:actionFac.actions()) {
+			for(ArrayList<int[]> move:actionFac.actionsV2()) {
 				int child[][]=makeMove(move,position);
 				int eval = minimax(child,depth-1,alpha,beta,false).get(0).get(0)[0];
 				maxEval = Math.max(maxEval, eval);
@@ -56,9 +56,9 @@ public class AI {
 		}
 		else {
 			int minEval = Integer.MAX_VALUE;
-			actionFac = new ActionFactory(position,player);
+			actionFac = new ActionFactoryV2(position,player);
 			ArrayList<int[]> bestMove = null;
-			for(ArrayList<int[]> move:actionFac.actions()) {
+			for(ArrayList<int[]> move:actionFac.actionsV2()) {
 				int child[][]=makeMove(move,position);
 				int eval = minimax(child,depth-1,alpha,beta,true).get(0).get(0)[0];
 				minEval = Math.min(eval,minEval);
@@ -148,7 +148,7 @@ public class AI {
 	
 	//evaluation function
 	public static int evaluateN(int[][] position) {
-		actionFac = new ActionFactory(position,1);
+		actionFac = new ActionFactoryV2(position,1);
 		int territory[][]= new int[11][11];
 		
 		ArrayList<int[]> whiteQueenPosition = whiteQueenPosition(position);
@@ -157,13 +157,13 @@ public class AI {
 		//get all possible moves white
 		int wpm=0;
 		for(int[] queenPos: whiteQueenPosition) {
-			ArrayList<int[]> queenMoves = actionFac.getQueenMoves(queenPos);
+			ArrayList<int[]> queenMoves = actionFac.generateMoves(queenPos[0], queenPos[1]);
 			wpm+=queenMoves.size();
 		}
 		//get all possbile black moves
 		int bpm=0;
 		for(int[] queenPos: blackQueenPosition) {
-			ArrayList<int[]> queenMoves = actionFac.getQueenMoves(queenPos);
+			ArrayList<int[]> queenMoves = actionFac.generateMoves(queenPos[0], queenPos[1]);
 			bpm+=queenMoves.size();
 		}
 		
