@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ActionFactory",
+            "request": "launch",
+            "mainClass": "ubc.cosc322.ActionFactory",
+            "projectName": "team-00"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -17,7 +24,6 @@
             "mainClass": "ubc.cosc322.COSC322Test",
             "projectName": "team-00",
             "args": "Allan 123"
-
         }
     ]
 }

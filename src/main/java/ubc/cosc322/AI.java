@@ -1,201 +1,208 @@
 package ubc.cosc322;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AI {
-	static ActionFactory actionFac;
-	private ArrayList<int[]> bestMove;
-	public int player=0;
-	
-	public ArrayList<int[]> getBestMove(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
-		ArrayList<ArrayList<int[]>> result= minimax(position,depth,alpha,beta,maximizingPlayer);
-		System.out.println(result.get(0).get(0)[0]);
-	    return result.get(1);
-	}
-//	public ArrayList<int[]> getBestMove(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
-//		int eval= minimax(position,depth,alpha,beta,maximizingPlayer);
-//		System.out.println(eval);
-//	    return bestMove;
-//	}
-	public AI(int player) {
-		this.player=player;
-	}
-	public ArrayList<ArrayList<int[]>> minimax(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
-		
-		if(depth==0) {
-			ArrayList<ArrayList<int[]>> result=new ArrayList<ArrayList<int[]>>();
-			int eval=evaluateN(position);
-			ArrayList<int[]> evaluation = new ArrayList<int[]>();
-			evaluation.add(new int[]{eval});
-			result.add(evaluation);
-			return result;
-		}
-		if(maximizingPlayer) {
-			int maxEval = Integer.MIN_VALUE;
-			actionFac = new ActionFactory(position,player);
-			ArrayList<int[]> bestMove=null;
-			for(ArrayList<int[]> move:actionFac.actions()) {
-				int child[][]=makeMove(move,position);
-				int eval = minimax(child,depth-1,alpha,beta,false).get(0).get(0)[0];
-				maxEval = Math.max(maxEval, eval);
-				if(maxEval==eval)
-				{
-					bestMove=move;
-				}
-				alpha = Math.max(alpha,eval);
-				if(beta<=alpha)
-					break;
-				
-			}
-			ArrayList<ArrayList<int[]>> result=new ArrayList<ArrayList<int[]>>();
-			ArrayList<int[]> evaluation = new ArrayList<int[]>();
-			evaluation.add(new int[]{maxEval});
-			result.add(evaluation);
-			result.add(bestMove);
-			return result ;
-		}
-		else {
-			int minEval = Integer.MAX_VALUE;
-			actionFac = new ActionFactory(position,player);
-			ArrayList<int[]> bestMove = null;
-			for(ArrayList<int[]> move:actionFac.actions()) {
-				int child[][]=makeMove(move,position);
-				int eval = minimax(child,depth-1,alpha,beta,true).get(0).get(0)[0];
-				minEval = Math.min(eval,minEval);
-				if(eval==minEval) {
-				bestMove=move;
-			}
-				beta = Math.min(beta,eval);
-				if(beta<=alpha)
-					break;
-				
-			}
-			ArrayList<ArrayList<int[]>> result=new ArrayList<ArrayList<int[]>>();
-			ArrayList<int[]> evaluation = new ArrayList<int[]>();
-			evaluation.add(new int[]{minEval});
-			result.add(evaluation);
-			result.add(bestMove);
-			return result;
-		}
-		
-	}
+	static ActionFactory actionFac=new ActionFactory();
+	/**
+ * Returns the best move for the given player (white or black) on the given board using the minimax algorithm with alpha-beta pruning.
+ * depth is the maximum search depth (i.e., how many moves ahead to look).
+ * Returns an int array with length 5 that represents the best move, where:
+ *   - the first two elements represent the row and column indices of the queen to move
+ *   - the third and fourth elements represent the row and column indices of the arrow to shoot
+ *   - the last element represents the heuristic score of the resulting board position
+ */
+/**
+ * Returns the best move for the given player using the minimax algorithm with alpha-beta pruning.
+ * The player is represented by the color of their queens on the board (1 for white, 2 for black).
+ * The maxDepth parameter specifies the maximum depth of the search tree to explore.
+ */
+/**
+ * Returns the best move for the given player using the minimax algorithm with alpha-beta pruning.
+ * The player is represented by the color of their queens on the board (1 for white, 2 for black).
+ * The maxDepth parameter specifies the maximum depth of the search tree to explore.
+ */
+/**
+ * Returns the best move for the given player (white or black) on the given board using the minimax algorithm.
+ * depth is the maximum search depth (i.e., how many moves ahead to look).
+ * Returns an int array with length 5 that represents the best move, where:
+ *   - the first two elements represent the row and column indices of the queen to move
+ *   - the third and fourth elements represent the row and column indices of the arrow to shoot
+ *   - the last element represents the heuristic score of the resulting board position
+ */
+public static int[] minimax(int[][] board, int depth, int player) {
+    int[] bestMove = null;
+    int bestScore = (player == 2) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+    ArrayList<int[]> allMoves = actionFac.generateAllPossibleMoves(board, player);
 
-//public int minimax(int[][] position, int depth, int alpha, int beta, boolean maximizingPlayer) {
-//	
-//	if(depth==0) {
-//		return evaluate(position);
-//	} 
-//	if(maximizingPlayer) {
-//		int maxEval = Integer.MIN_VALUE;
-//		actionFac = new ActionFactory(position,player);
-//		for(ArrayList<int[]> move:actionFac.actions()) {
-//			int child[][]=makeMove(move,position);
-//			int eval = minimax(child,depth-1,alpha,beta,false);
-//			maxEval = Math.max(maxEval, eval);
-//			if(maxEval==eval)
-//			{
-//				bestMove=move;
-//			}
-//			
-//			alpha = Math.max(alpha,eval);
-//			if(beta<=alpha)
-//				break;
-//		}
-//		return maxEval;
-//	}
-//	else {
-//		int minEval = Integer.MAX_VALUE;
-//		actionFac = new ActionFactory(position,player);
-//		for(ArrayList<int[]> move:actionFac.actions()) {
-//			int child[][]=makeMove(move,position);
-//			int eval = minimax(child,depth-1,alpha,beta,true);
-//			minEval = Math.min(eval,minEval);
-//			if(eval==minEval) {
-//				bestMove=move;
-//		}
-//			
-//			beta = Math.min(beta,eval);
-//			if(beta<=alpha)
-//				break;
-//			
-//		}
-//		return minEval;
-//	}
-//	
-//}
- 
+    // If no moves are possible, return null
+    if (allMoves.isEmpty()) {
+        return null;
+    }
 
-	private int[][] boardCopy(int[][] currentBoard){
-		int n=currentBoard.length;
-		int[][] copy = new int[n][n];
-		for(int i=0; i<n; i++)
-			  for(int j=0; j<n; j++)
-			    copy[i][j]=currentBoard[i][j];
-		return copy;
+    // Search for the best move
+    for (int[] move : allMoves) {
+        // Make the move on a copy of the board
+        int[][] newBoard = copyBoard(board);
+        makeMove(move, newBoard);
+
+        // Recursively search for the best score at the next depth level
+        int score = minimaxRecursive(newBoard, depth - 1, player, (player == 2) ? Integer.MIN_VALUE : Integer.MAX_VALUE);
+
+        // Update the best move and score
+        if ((player == 2 && score > bestScore) || (player == 1 && score < bestScore)) {
+            bestScore = score;
+            bestMove = move;
+            
+        }
+    }
+
+    return bestMove;
+}
+
+/**
+ * Recursively searches for the best score at the given depth level using the minimax algorithm.
+ * Returns the best score.
+ */
+private static int minimaxRecursive(int[][] board, int depth, int player, int alphaBeta) {
+    // Base case: reached maximum depth or game is over
+    if (depth == 0 || isGameOver(board,player)) {
+        return evaluate(board);
+    }
+
+    // Search for the best score at the next depth level
+    int bestScore = (player == 2) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+    ArrayList<int[]> allMoves =actionFac.generateAllPossibleMoves(board, player);
+    for (int[] move : allMoves) {
+        // Make the move on a copy of the board
+        int[][] newBoard = copyBoard(board);
+        makeMove(move, newBoard);
+
+        // Recursively search for the best score at the next depth level
+        int score = minimaxRecursive(newBoard, depth - 1, (player == 2) ? 1 : 2, alphaBeta);
+
+        // Update the best score and alpha-beta value
+        if (player == 2) {
+            bestScore = Math.max(bestScore, score);
+            alphaBeta = Math.max(alphaBeta, bestScore);
+        } else {
+            bestScore = Math.min(bestScore, score);
+            alphaBeta = Math.min(alphaBeta, bestScore);
+        }
+
+        // Alpha-beta pruning: stop searching if the current score is outside the current alpha-beta range
+        if (alphaBeta <= bestScore && player == 1) {
+            break;
+        } else if (alphaBeta >= bestScore && player == 2) {
+            break;
+        }
+    }
+
+    return bestScore;
+}
+
+
+
+
+// public static int[] minimax(int[][] board, int depth, int player, int alpha, int beta) {
+//     if (depth == 0 || isGameOver(board,player)) {
+//         int score = evaluate(board);
+//         return new int[] {-1, -1, -1, -1, score};
+//     }
+    
+//     ArrayList<int[]> possibleMoves =actionFac.generateAllPossibleMoves(board, player);
+    
+//     int[] bestMove = new int[7];
+    
+//     if (player == 2) {
+//         // Maximizing player (Black)
+//         bestMove[6] = Integer.MIN_VALUE;
+//         for (int i = 0; i < possibleMoves.size(); i++) {
+//             int[] move = possibleMoves.get(i);
+//             int[][] newBoard = copyBoard(board);
+//             makeMove(move, newBoard);
+            
+//             int[] result = minimax(newBoard, depth - 1, 1, alpha, beta);
+//             if (result[4] > bestMove[6]) {
+//                 bestMove[0] = move[0];
+// 				bestMove[1] = move[1];
+// 				bestMove[2] = move[2];
+// 				bestMove[3] = move[3];
+// 				bestMove[4] = move[4];
+// 				bestMove[5] = move[5];
+// 				bestMove[6] = result[4];
+//             }
+            
+//             alpha = Math.max(alpha, bestMove[4]);
+//             if (beta <= alpha) {
+//                 break;
+//             }
+//         }
+//     } else {
+//         // Minimizing player (White)
+//         bestMove[6] = Integer.MAX_VALUE;
+//         for (int i = 0; i < possibleMoves.size(); i++) {
+//             int[] move = possibleMoves.get(i);
+//             int[][] newBoard = copyBoard(board);
+//             makeMove(move, newBoard);
+            
+//             int[] result = minimax(newBoard, depth - 1, 2, alpha, beta);
+//             if (result[4] < bestMove[6]) {
+//                 bestMove[0] = move[0];
+// 				bestMove[1] = move[1];
+// 				bestMove[2] = move[2];
+// 				bestMove[3] = move[3];
+// 				bestMove[4] = move[4];
+// 				bestMove[5] = move[5];
+//                 bestMove[6] = result[4];
+//             }
+            
+//             beta = Math.min(beta, bestMove[4]);
+//             if (beta <= alpha) {
+//                 break;
+//             }
+//         }
+//     }
+    
+//     return bestMove;
+// }
+
+/**
+ * Returns a copy of the given board.
+ */
+private static int[][] copyBoard(int[][] board) {
+    int[][] copy = new int[board.length][board[0].length];
+    for (int i = 0; i < board.length; i++) {
+        System.arraycopy(board[i], 0, copy[i], 0, board[i].length);
+    }
+    return copy;
+}
+
+/**
+ * Makes the given move on the given board by updating the queen and arrow positions.
+ */
+private static void makeMove(int[] move, int[][] board) {
+    // Update queen position
+	int queenType = board[move[0]][move[1]];
+    board[move[0]][move[1]] = 0;
+    board[move[2]][move[3]] =  (queenType== 2) ? 2 : 1;
+
+    // Update arrow position
+    board[move[4]][move[5]] = 3;
+}
+	/**
+ * Returns true if the game is over (i.e., one player has no more moves), false otherwise.
+ */
+public static boolean isGameOver(int[][]position,int player) {
+	ArrayList<int[]> possibleMoves =actionFac.generateAllPossibleMoves(position, player);
+	if (possibleMoves.isEmpty()) {
+		return true;
 	}
-	private int[][] makeMove(ArrayList<int[]> action,int[][] currentPosition){
-		
-		int[][] child = boardCopy(currentPosition);
-		int[] qOld= action.get(0);
-		int[] qNew=action.get(1);
-		int[] arrow = action.get(2);
-		child[qOld[0]][qOld[1]]=0;
-		child[qNew[0]][qNew[1]]=player;
-		child[arrow[0]][arrow[1]]=3;
-			
-		return child;
+	else {
+		return false;
 	}
-	
-	//evaluation function
-	public static int evaluateN(int[][] position) {
-		actionFac = new ActionFactory(position,1);
-		int territory[][]= new int[11][11];
-		
-		ArrayList<int[]> whiteQueenPosition = whiteQueenPosition(position);
-		ArrayList<int[]> blackQueenPosition = BlackQueenPosition(position);
-	
-		//get all possible moves white
-		int wpm=0;
-		for(int[] queenPos: whiteQueenPosition) {
-			ArrayList<int[]> queenMoves = actionFac.getQueenMoves(queenPos);
-			wpm+=queenMoves.size();
-		}
-		//get all possbile black moves
-		int bpm=0;
-		for(int[] queenPos: blackQueenPosition) {
-			ArrayList<int[]> queenMoves = actionFac.getQueenMoves(queenPos);
-			bpm+=queenMoves.size();
-		}
-		
-		//Possible moves score
-		int pScore=bpm-wpm;
-		
-		//Calculate territory score
-		
-		
-		
-		
-		
-		return pScore;
-	}
-	public static ArrayList<int[]> whiteQueenPosition(int[][]b){
-		ArrayList<int[]> queenPos=new ArrayList<int[]>();
-		for(int i=0;i<b.length;i++)
-			for(int j=0;j<b.length;j++)
-				if(b[i][j]==1)
-					queenPos.add(new int[]{i,j} );
-					
-		return queenPos;
-	}
-	public static ArrayList<int[]>BlackQueenPosition(int[][]b){
-		ArrayList<int[]> queenPos=new ArrayList<int[]>();
-		for(int i=0;i<b.length;i++)
-			for(int j=0;j<b.length;j++)
-				if(b[i][j]==2)
-					queenPos.add(new int[]{i,j} );
-					
-		return queenPos;
-	}
+}
 
 	  public static int evaluate(int[][]currentBoard) {
 	        //default all distances to 100 so they are too big if there is no queen found 
@@ -575,16 +582,7 @@ public class AI {
 	        }
 	 }
 
-	 //check if game is over
-	public boolean isGameOver(int[][]position) {
-		actionFac = new ActionFactory(position,player);
-		if (actionFac.actions().isEmpty()) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+
 
 }
 
