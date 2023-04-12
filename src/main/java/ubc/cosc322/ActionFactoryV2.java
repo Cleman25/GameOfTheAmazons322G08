@@ -48,7 +48,7 @@ public class ActionFactoryV2 {
 
         return legalActions;
     }
-
+//using this one
     public ArrayList<ArrayList<int[]>> actionsV2() {
 		ArrayList<ArrayList<int[]>> actions = new ArrayList<ArrayList<int[]>>();
 		ArrayList<int[]> queenPos=getQueenPositions();
@@ -75,7 +75,7 @@ public class ActionFactoryV2 {
         }
         return actions;
     }
-
+//we are using this one:arrow moves
     private ArrayList<int[]> generateShots(int[] move, int[][] tempBoard) {
         ArrayList<int[]> shots = new ArrayList<>();
         int row = move[0];
@@ -117,7 +117,7 @@ public class ActionFactoryV2 {
         child[newP[0]][newP[1]] = player;
         return child;
     }
-
+//queen moves
     public ArrayList<int[]> generateMoves(int row, int col) {
         ArrayList<int[]> moves = new ArrayList<>();
 
