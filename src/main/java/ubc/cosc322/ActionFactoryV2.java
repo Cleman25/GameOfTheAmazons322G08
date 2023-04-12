@@ -13,42 +13,7 @@ public class ActionFactoryV2 {
         this.player = player;
     }
 
-    public ArrayList<int[]> actions() {
-        ArrayList<int[]> legalActions = new ArrayList<>();
-        int nodesGenerated = 0;
 
-        ArrayList<int[]> queens = getQueenPositions();
-        for (int[] queen : queens) {
-            int row = queen[0];
-            int col = queen[1];
-
-            // Generate all possible moves and shots for this queen
-            List<int[]> moves = generateMoves(row, col);
-
-            // Add all possible moves and shots to the list of legal actions
-            for (int[] move : moves) {
-                // legalActions.add(new int[] {row, col, move[0], move[1]});
-                // an action = oldPos, newPos, arrowPos
-                int[][] tempBoard = this.copyBoard();
-                ArrayList<int[]> tmove = new ArrayList<>();
-                tmove.add(queen);
-                tmove.add(move);
-                tempBoard = makeMove(tmove, tempBoard);
-                ArrayList<int[]> tshot = generateShots(move, tempBoard);
-
-                for (int[] shot : tshot) {
-                    legalActions.add(new int[] {row, col, move[0], move[1], shot[0], shot[1]});
-                    nodesGenerated++;
-                    if (nodesGenerated >= MAX_NODES_GENERATED) {
-                        return legalActions;
-                    }
-                }
-            }
-        }
-
-        return legalActions;
-    }
-//using this one
     public ArrayList<ArrayList<int[]>> actionsV2() {
 		ArrayList<ArrayList<int[]>> actions = new ArrayList<ArrayList<int[]>>();
 		ArrayList<int[]> queenPos=getQueenPositions();
@@ -149,30 +114,6 @@ public class ActionFactoryV2 {
         return moves;
     }
 
-    private ArrayList<int[]> generateShots(int row, int col) {
-        ArrayList<int[]> shots = new ArrayList<>();
-
-        // Iterate over all possible shots for the queen
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                if (i == 0 && j == 0) {
-                    continue;
-                }
-
-                int r = row + i;
-                int c = col + j;
-                int pos = board[r][c];
-
-                while (r >= 1 && r < 11 && c >= 1 && c < 11 && pos == 0) {
-                    shots.add(new int[] {r, c});
-                    r += i;
-                    c += j;
-                }
-            }
-        }
-
-        return shots;
-    }
 
     public ArrayList<int[]> getQueenPositions() {
         ArrayList<int[]> queens = new ArrayList<>();
