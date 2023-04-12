@@ -121,28 +121,35 @@ public class COSC322Test extends GamePlayer{
     public void play() {
     	//AI implementation
 		//gameClient.sendMoveMessage(queenNew, queenNew, arrow); // send the move to the server
-    	ai = new AI(game.getPlayer());
+    	// ai = new AI(game.getBoardState(), game.getPlayer(), 1);
+		ai = new AI(game.getPlayer(), 1, 11);
     	ArrayList<int[]> bestMove= null;
-		bestMove = ai.getBestMove(game.getBoardState(),2,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==2);
-		// int[] bMove = ai.getBestMoveV2(game.getBoardState(), 2, Integer.MIN_VALUE, Integer.MAX_VALUE);
-		if (bestMove == null || bestMove==null) {
+		// bestMove = ai.getBestMove(game.getBoardState(),2,Integer.MIN_VALUE,Integer.MAX_VALUE,game.getPlayer()==2);
+		int[] bMove = ai.findBestMove(new Board(game.getBoardState(), game.getPlayer()));
+		if (bMove==null) {
 			System.out.println("No moves left");
 			return;
 		}
 		ArrayList<Integer> queenCurrent = new ArrayList<Integer>();
 		ArrayList<Integer> queenNew = new ArrayList<Integer>();
 		ArrayList<Integer> arrow = new ArrayList<Integer>();
-		queenCurrent.add(bestMove.get(0)[0]);
-		// queenCurrent.add(bMove[0]);
-		queenCurrent.add(bestMove.get(0)[1]);
-		queenNew.add(bestMove.get(1)[0]);
-		queenNew.add(bestMove.get(1)[1]);
-		arrow.add(bestMove.get(2)[0]);
-		arrow.add(bestMove.get(2)[1]);
+		// queenCurrent.add(bestMove.get(0)[0]);
+		// queenCurrent.add(bestMove.get(0)[1]);
+		queenCurrent.add(bMove[0]);
+		queenCurrent.add(bMove[1]);
+		// queenNew.add(bestMove.get(1)[0]);
+		// queenNew.add(bestMove.get(1)[1]);
+		queenNew.add(bMove[2]);
+		queenNew.add(bMove[3]);
+		// arrow.add(bestMove.get(2)[0]);
+		// arrow.add(bestMove.get(2)[1]);
+		arrow.add(bMove[4]);
+		arrow.add(bMove[5]);
 		game.updateBoardState(queenCurrent, queenNew, arrow);
 		System.out.println("Made a move");
 		System.out.println(queenCurrent+" "+queenNew+" "+arrow);
-		game.printGameState();
+		// game.printGameState();
+		// ai.Board.printBoard();
 		gameClient.sendMoveMessage(queenCurrent, queenNew, arrow);
 		gamegui.updateGameState(queenCurrent, queenNew, arrow); // update the game state
 //		System.out.println("Made a move");
