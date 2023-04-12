@@ -8,28 +8,12 @@ public class GameState {
 	private int[][] boardState=new int[11][11];
 	private int player;
 	
-	private ActionFactory actionFac;
+	// private ActionFactory actionFac;
 	public GameState(ArrayList<Integer> gameState) {
 		this.gameState=gameState;
 		setBoardState();	
 	}
 	public int[][] setBoardState() {
-//		int count=0;
-//		for(int i=0;i<boardState.length;i++)
-//			for(int j=0;j<boardState.length;j++) {
-//				boardState[i][j]=gameState.get(count);
-//				count++;
-//			}
-//		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		boardState=new int[][] {
 				{0,0,0,0,0,0,0,0,0,0,0}, //0
 				{0,0,0,0,1,0,0,1,0,0,0}, //1
@@ -47,12 +31,12 @@ public class GameState {
 		return boardState;
 		
 	}
-	public ActionFactory getActionFac() {
-		return actionFac;
-	}
-	public void setActionFac() {
-		this.actionFac = new ActionFactory(getBoardState(),getPlayer());
-	}
+	// public ActionFactory getActionFac() {
+	// 	return actionFac;
+	// }
+	// public void setActionFac() {
+	// 	this.actionFac = new ActionFactory(getBoardState(),getPlayer());
+	// }
 	public int[][] getBoardState(){
 		return boardState;
 	}

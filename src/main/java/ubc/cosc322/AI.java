@@ -3,7 +3,7 @@ package ubc.cosc322;
 import java.util.ArrayList;
 
 public class AI {
-	static ActionFactory actionFac;
+	// static ActionFactory actionFac;
 	static ActionFactoryV2 actionFacV2;
 	public int player=0;
 	
