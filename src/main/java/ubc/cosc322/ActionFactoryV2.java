@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActionFactoryV2 {
-    private static final int MAX_NODES_GENERATED = 1000;
+    private static final int MAX_NODES_GENERATED = 500;
     private int[][] board;
     private int player;
 
