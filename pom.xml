@@ -26,7 +26,7 @@
         <repository>
             <id>ubc-yong-gao</id>
             <name>ubc-yong-gao</name>
-            <url>https://cmps-people.ok.ubc.ca/yongg/computing_resources/</url>
+            <url>https://people.ok.ubc.ca/yongg/computing_resources/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>

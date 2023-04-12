@@ -6,31 +6,18 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Program",
-            "request": "launch",
-            "mainClass": "Program",
-            "projectName": "team-00"
-        },
-        {
-            "type": "java",
-            "name": "Launch Program",
-            "request": "launch",
-            "mainClass": "ubc.cosc322.Program",
-            "projectName": "team-00"
-        },
-        {
-            "type": "java",
-            "name": "Launch Current File",
+            "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
         },
         {
             "type": "java",
-            "name": "Launch COSC322Test",
+            "name": "COSC322Test",
             "request": "launch",
             "mainClass": "ubc.cosc322.COSC322Test",
             "projectName": "team-00",
-            "args": "Cleman25 71138176"
+            "args": "Clement 123"
+
         }
     ]
 }
